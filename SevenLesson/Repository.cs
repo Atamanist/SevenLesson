@@ -139,6 +139,23 @@ namespace SevenLesson
         #endregion
 
 
-        static Random rand=new
+        static Random rand = new Random();
+        static public Note[] GetRepository()
+        {
+            int count = rand.Next(10, 15);
+            Note[] t = new Note[count];
+            for(int i=0;i<count;i++)
+            {
+                t[i] = new Note 
+                {
+                Number=i+1,
+                DateN=DateTime.Now+new TimeSpan(days:rand.Next(20),hours:0,minutes:0,seconds:0),
+                Title=$"Заг_{i+1}",
+                Text=Guid.NewGuid().ToString(),
+                Author=$"Авт_{i+1}",
+                };
+            }
+            return t;
+        }
     }
 }

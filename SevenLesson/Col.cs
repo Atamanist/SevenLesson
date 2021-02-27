@@ -6,7 +6,16 @@ namespace SevenLesson
 {
     public struct Col
     {
-        Note[] db;
+        public Note this[int index]
+        {
+            get { return db[index]; }
+        }
+        public int Count 
+        { 
+            get { return db.Length; } 
+        }
+
+        public Note[] db;
 
 
         public Col(string name)
@@ -25,16 +34,41 @@ namespace SevenLesson
         public void Remove(int index)
         {
             int count = db.Length;
-            for(int i=index;i<count-1;i++)
+
+            int findindex = -1;
+
+            for(int i=0;i<count;i++)
             {
-                db[index] = db[index + 1];
+                if (db[i].Number == index)
+                    findindex = i;
+            }
+            if (findindex == -1) return;
+
+            for(int i=findindex;i<count-1;i++)
+            {
+                db[findindex] = db[findindex + 1];
             }
             Array.Resize(ref db, db.Length - 1);
         }
-        public void Edit(int index,Note note)
-
+        public void Edit(int index)
         {
-            db[index] = note;
+            index--;
+            db[index].Number = index+1;
+            Console.Write("Author");
+            db[index].Author = Console.ReadLine(); ;
+            Console.Write("Text");
+            db[index].Text = Console.ReadLine(); ;
+            Console.Write("Title");
+            db[index].Title = Console.ReadLine(); ;
+            DateTime dt = new DateTime();
+            bool r = false;
+            do
+            {
+                Console.Write("Date");
+                r = DateTime.TryParse(Console.ReadLine(), out dt);
+            } while (!r);
+            db[index].DateN = dt;
         }
+
     }
 }
