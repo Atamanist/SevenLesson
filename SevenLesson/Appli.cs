@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace SevenLesson
 {
@@ -41,6 +42,22 @@ namespace SevenLesson
             return note;
         }
 
+        static Note GetNoteFile(string path)
+        {
+            StreamReader sr = new StreamReader(path);
+            Note note = new Note();
+            while (!sr.EndOfStream)
+            {
+                string[] data = sr.ReadLine().Split(',');
+                note.Number = Convert.ToInt32(data[0]);
+                note.Text = data[1];
+                note.Author = data[2];
+                note.Title = data[3];
+                note.DateN = Convert.ToDateTime(data[4]);
+            }
+            return note;
+        }
+
 
 
 
@@ -68,7 +85,7 @@ namespace SevenLesson
                     case "1": notepad.Add(GetNote());break;
                     case "2": notepad.Remove(GetIndex());break;
                     case "3": Console.WriteLine(notepad.Print());break;
-                    case "4": break;
+                    case "4": notepad.Add(GetNoteFile(GetPath()));break;
                     case "5": break;
                     case "6": notepad.SortBy();break;
                     case "7": notepad.Edit(GetIndex());break;
