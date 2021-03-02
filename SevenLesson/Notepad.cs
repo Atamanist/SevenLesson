@@ -33,6 +33,11 @@ namespace SevenLesson
         {
             cols.Edit(index);
         }
+        public void FindDate(string path, DateTime data1, DateTime data2)
+        {
+            cols.FindDate(path, data1, data2);
+        }
+
         public string Print()
         {
             StringBuilder t = new StringBuilder();           
@@ -43,14 +48,6 @@ namespace SevenLesson
             }
             return t.ToString();
         }
-        //public void SortByDate()
-        //{
-        //    Array.Sort(cols.db, sortByDate);
-        //    //cols.db=cols.db
-        //    //    .OrderBy(e=>e.DateN)
-        //    //    .ThenBy(e=>e.Author)
-        //    //    .ToArray();
-        //}
         public void SortByDate()
         {
             cols.db = cols.db.OrderBy(e => e.DateN).ToArray();
@@ -85,14 +82,6 @@ namespace SevenLesson
                     default: Console.WriteLine("of course"); break;
                 }
         }
-
-
-        //private int sortByDate(Note x, Note y)
-        //{
-        //    return x.DateN < y.DateN ? -1 : x.DateN == y.DateN ? 0 : 1;
-        //}
-
-
     }
 
 }

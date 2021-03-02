@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace SevenLesson
 {
@@ -54,20 +55,42 @@ namespace SevenLesson
         {
             index--;
             db[index].Number = index+1;
-            Console.Write("Author");
+            Console.Write("Author: ");
             db[index].Author = Console.ReadLine(); ;
-            Console.Write("Text");
+            Console.Write("Text: ");
             db[index].Text = Console.ReadLine(); ;
-            Console.Write("Title");
+            Console.Write("Title: ");
             db[index].Title = Console.ReadLine(); ;
             DateTime dt = new DateTime();
             bool r = false;
             do
             {
-                Console.Write("Date");
+                Console.Write("Date: ");
                 r = DateTime.TryParse(Console.ReadLine(), out dt);
             } while (!r);
             db[index].DateN = dt;
+        }
+        public void FindDate(string path, DateTime data1, DateTime data2)
+        {
+            int count = db.Length;
+            int findindex = -1;
+            StreamWriter sw = new StreamWriter(path);
+
+            for (int i = 0; i < count; i++)
+            {
+                if ((db[i].DateN >= data1) && (db[i].DateN <= data2))
+                {
+                    sw.WriteLine(db[i].Number);
+                    sw.WriteLine(db[i].Author);
+                    sw.WriteLine(db[i].Title);
+                    sw.WriteLine(db[i].Text);
+                    sw.WriteLine(db[i].DateN);
+                    sw.WriteLine();
+                }
+                findindex = i;
+            }
+            sw.Close();
+            if (findindex == -1) return;
         }
 
     }

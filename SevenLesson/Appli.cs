@@ -22,17 +22,17 @@ namespace SevenLesson
         {
             Note note = new Note();
             note.Number = id++;
-            Console.Write("Text");
+            Console.Write("Text: ");
             note.Text = Console.ReadLine();
-            Console.Write("Author");
+            Console.Write("Author: ");
             note.Author = Console.ReadLine();
-            Console.Write("Title");
+            Console.Write("Title: ");
             note.Title = Console.ReadLine();
             DateTime dt = new DateTime();
             bool r = false;
             do
             {
-                Console.Write("Date");
+                Console.Write("Date: ");
                 r = DateTime.TryParse(Console.ReadLine(), out dt);
             } while (!r);
 
@@ -42,22 +42,51 @@ namespace SevenLesson
             return note;
         }
 
+        //static Note GetNoteFile(string path)
+        //{
+        //    StreamReader sr = new StreamReader(path);
+        //    Note note = new Note();
+        //    while (!sr.EndOfStream)
+        //    {
+        //        string[] data = sr.ReadLine().Split(',');
+        //        note.Number = Convert.ToInt32(data[0]);
+        //        note.Author = data[2];
+        //        note.Title = data[3];
+        //        note.Text = data[1];
+        //        note.DateN = Convert.ToDateTime(data[4]);
+        //    }
+        //    return note;
+        //}
         static Note GetNoteFile(string path)
         {
             StreamReader sr = new StreamReader(path);
             Note note = new Note();
-            while (!sr.EndOfStream)
+            string line;
+            while ((line = sr.ReadLine()) != null)
             {
-                string[] data = sr.ReadLine().Split(',');
+                char[] charSeparators = new char[] { ' ', ',', '.' };
+                string[] data = line.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                 note.Number = Convert.ToInt32(data[0]);
-                note.Text = data[1];
                 note.Author = data[2];
                 note.Title = data[3];
-                note.DateN = Convert.ToDateTime(data[4]);
+                note.Text = data[1];
+                note.DateN = /*Convert.ToDateTime(data[4])*/ DateTime.Now;
             }
             return note;
         }
 
+
+        static DateTime GetDate()
+        {
+            DateTime Date;
+            bool r = false;
+            do
+            {
+                Console.Write("Date: ");
+                r = DateTime.TryParse(Console.ReadLine(), out Date);
+            } while (!r);
+            return Date;
+        }
 
 
 
@@ -67,7 +96,7 @@ namespace SevenLesson
             bool r = false;
             do
             { 
-                Console.Write("Index");
+                Console.Write("Index: ");
                 r = int.TryParse(Console.ReadLine(), out index);
             } while (!r);
             return index;
@@ -78,7 +107,7 @@ namespace SevenLesson
         {
             while (true)
             {
-                Console.WriteLine(@"What to do?\0 save\1 add\2 delete\3 show\4 import\5 exit\6 sort\7 edit");
+                Console.WriteLine(@"What to do?\0 save\1 add\2 delete\3 show\4 import\5 save by date\6 sort\7 edit");
                 switch(Console.ReadLine())
                 {
                     case "0": new DataSaver(notepad.Notes).Save(GetPath());break;
@@ -86,7 +115,7 @@ namespace SevenLesson
                     case "2": notepad.Remove(GetIndex());break;
                     case "3": Console.WriteLine(notepad.Print());break;
                     case "4": notepad.Add(GetNoteFile(GetPath()));break;
-                    case "5": break;
+                    case "5": notepad.FindDate(GetPath(), GetDate(), GetDate()); break;
                     case "6": notepad.SortBy();break;
                     case "7": notepad.Edit(GetIndex());break;
                     default:Console.WriteLine("of course"); break;
@@ -98,7 +127,7 @@ namespace SevenLesson
             string path = String.Empty;
             do
             {
-                Console.Write("Path");
+                Console.Write("Path: ");
                 path = Console.ReadLine();
                 bool f = true;
                 for(int i=0; i< path.Length;i++)
